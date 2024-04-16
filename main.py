@@ -39,7 +39,7 @@ def home():
 
         recent_vote = Vote.query.filter(
             Vote.ip_address == ip,
-            Vote.timestamp > datetime.utcnow() - timedelta(hours=12)
+            Vote.timestamp > datetime.utcnow() - timedelta(hours=24)
         ).first()
 
         if recent_vote:
