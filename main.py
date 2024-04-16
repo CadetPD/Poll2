@@ -18,7 +18,7 @@ tz = ZoneInfo("Europe/Warsaw")  # Warszawa jako przykład UTC+2
 
 class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=datetime.now(tz))
     ip_address = db.Column(db.String(45))  # Updated size for IPv6 compatibility
     user_agent = db.Column(db.String(256))
     country = db.Column(db.String(100))
