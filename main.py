@@ -26,6 +26,8 @@ class Vote(db.Model):
 with app.app_context():
     db.create_all()
 
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     error = None
@@ -41,7 +43,9 @@ def home():
         ).first()
 
         if recent_vote:
-            error = "Możesz głosować tylko raz na 12 godzin z tego samego adresu IP."
+            @app.route('/blocade')
+            def blocade():
+                return "Już mam Twój głos ;)"
         else:
             token = os.environ.get('IPINFO_TOKEN', '')
             try:
@@ -66,7 +70,7 @@ def home():
 
 @app.route('/thanks')
 def thanks():
-    return "Thank you for voting!"
+    return "Dziękuję za Twój głos!"
 
 if __name__ == '__main__':
     app.run(debug=True)
