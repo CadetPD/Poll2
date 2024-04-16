@@ -1,16 +1,14 @@
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate  # Import Flask-Migrate
 from datetime import datetime, timedelta
 import requests
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///votes.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://localhost/mylocaldb')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)  # Inicjalizacja Flask-Migrate
 
 class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
