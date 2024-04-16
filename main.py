@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 import requests
 import os
 
@@ -12,6 +13,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+tz = ZoneInfo("Europe/Warsaw")  # Warszawa jako przykład UTC+2
 
 class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -25,7 +28,6 @@ class Vote(db.Model):
 
 with app.app_context():
     db.create_all()
-
 
 
 @app.route('/', methods=['GET', 'POST'])
