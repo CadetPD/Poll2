@@ -7,7 +7,7 @@ import os  # Dodano import modułu os
 app = Flask(__name__)
 
 # Zaktualizowano konfigurację URI bazy danych do użycia PostgreSQL
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///votes.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('postgresql-rugged-54545', 'sqlite:///votes.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
