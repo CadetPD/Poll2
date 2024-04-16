@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 import requests
 import os
 
@@ -14,11 +13,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-tz = ZoneInfo("Europe/Warsaw")  # Warszawa jako przykład UTC+2
-
 class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.now(tz))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     ip_address = db.Column(db.String(45))  # Updated size for IPv6 compatibility
     user_agent = db.Column(db.String(256))
     country = db.Column(db.String(100))
@@ -42,7 +39,7 @@ def home():
 
         recent_vote = Vote.query.filter(
             Vote.ip_address == ip,
-            Vote.timestamp > datetime.utcnow() - timedelta(hours=24)
+            Vote.timestamp > datetime.utcnow() - timedelta(hours=12)
         ).first()
 
         if recent_vote:
