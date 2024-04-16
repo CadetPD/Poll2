@@ -32,7 +32,8 @@ with app.app_context():
 def home():
     error = None
     if request.method == 'POST':
-        ip = request.remote_addr
+        # Użycie nagłówka 'X-Forwarded-For' do pobrania prawdziwego adresu IP
+        ip = request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0].strip()
         user_agent = request.user_agent.string
         first_vote = request.form['first_vote']
         second_vote = request.form['second_vote']
@@ -43,9 +44,7 @@ def home():
         ).first()
 
         if recent_vote:
-            @app.route('/blocade')
-            def blocade():
-                return "Już mam Twój głos ;)"
+            return "Już mam Twój głos ;)"
         else:
             token = os.environ.get('IPINFO_TOKEN', '')
             try:
