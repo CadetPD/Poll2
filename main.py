@@ -42,11 +42,11 @@ def home():
 
         recent_vote = Vote.query.filter(
             Vote.ip_address == ip,
-            Vote.timestamp > datetime.utcnow() - timedelta(hours=12)
+            Vote.timestamp > datetime.utcnow() - timedelta(hours=24)
         ).first()
 
         if recent_vote:
-            return "Już mam Twój głos ;)"
+            return "Już mam Twój głos ;) Zapraszam później"
         else:
             token = os.environ.get('IPINFO_TOKEN', '')
             try:
